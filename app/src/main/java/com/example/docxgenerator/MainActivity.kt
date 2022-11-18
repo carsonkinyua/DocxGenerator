@@ -17,10 +17,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.docxgenerator.lib.AndroidDocBuilder
@@ -69,47 +68,63 @@ class MainActivity : ComponentActivity() {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/${timeStamp}_doc.docx"
         setContent {
             DocxGeneratorTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Row(
-                        modifier = Modifier,
-                        verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.Start
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(20.dp)
                     ) {
-                            AddButton(doc)
-                    }
-                    Row(
-                        modifier = Modifier,
-                        verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.End
-                    ) {
+                        Text(
+                            text = longText,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.2F)
+                        )
+                        Button(
+                            onClick = {
+                                      doc.addText(longText);
+                            },
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                                .padding(top = 20.dp)
+                        ) {
+                            Text(text = "Add Text")
+                        }
                         val galleryLauncher = rememberLauncherForActivityResult(
                             ActivityResultContracts.GetContent()) {
                             doc.addImage(FileUtils().getPath(this@MainActivity, it)!!, 100, 100)
                         }
-                        Button(onClick = {
-                            galleryLauncher.launch("image/*")
-                        }) {
+                        Button(
+                            onClick = {
+                                galleryLauncher.launch("image/*")
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp)
+                        ) {
                             Text(text = "Add Image")
                         }
-                    }
-                    Row(
-                        modifier = Modifier,
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Button(onClick = {
-                            doc.generateDocx(fullPathToFile);
-                            openFile(fullPathToFile);
-                        }) {
+
+                        Button(
+                            onClick = {
+                                doc.generateDocx(fullPathToFile);
+                                openFile(fullPathToFile);
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp)
+                        ) {
                             Text(text = "Generate Document")
                         }
+
                     }
+
                 }
             }
+
         }
     }
 
@@ -154,26 +169,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Composable
-fun AddButton(doc: AndroidDocBuilder) {
-    Button(onClick = {
-        doc.addText("Text 1")
-    }) {
-        Text(text = "Add Text")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DocxGeneratorTheme {
-        Greeting("Android")
-        AddButton(AndroidDocBuilder())
-    }
-}
+const val longText = "Arriving at Changi airport, and after going through the immigration, I went straight to the Jewel Changi, seeing one of the iconic sites you usually would come across whenever you see anything talking about the best airports in the World. All this time, I was enjoying the free wifi so I could immediately update the status :)."
