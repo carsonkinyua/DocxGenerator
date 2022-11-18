@@ -2,6 +2,11 @@
 use crate::*;
 use jni_sys::*;
 foreign_class!(
+	class RustLog {
+		fn RustLog::initialise_logging(); alias initialiseLogging;
+	}
+);
+foreign_class!(
 	# [doc = " A simple android doc builder"]
 	class AndroidDocBuilder {
 		self_type AndroidDocBuilder;
@@ -12,10 +17,5 @@ foreign_class!(
 		fn AndroidDocBuilder::add_image(& mut self , file : & str , width : u32 , height : u32); alias addImage;
 		# [doc = " Export the file"]
 		fn AndroidDocBuilder::generate_docx(& mut self , file_name : & str); alias generateDocx;
-	}
-);
-foreign_class!(
-	class RustLog {
-		fn RustLog::initialise_logging(); alias initialiseLogging;
 	}
 );
