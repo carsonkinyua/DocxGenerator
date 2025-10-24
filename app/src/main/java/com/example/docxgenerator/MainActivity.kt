@@ -94,8 +94,10 @@ class MainActivity : ComponentActivity() {
                             Text(text = "Add Text")
                         }
                         val galleryLauncher = rememberLauncherForActivityResult(
-                            ActivityResultContracts.GetContent()) {
-                            doc.addImage(FileUtils().getPath(this@MainActivity, it)!!, 100, 100)
+                            ActivityResultContracts.GetContent()) { uri ->
+                            uri?.let { uri ->
+                                doc.addImage(FileUtils().getPath(this@MainActivity, uri)!!, 100, 100)
+                            }
                         }
                         Button(
                             onClick = {
