@@ -27,6 +27,22 @@ jobs:
           api-level: 35
           ndk-version: 29.0.14206865
 
+      - name: set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: add Android Rust targets
+        run: |
+          rustup target add aarch64-linux-android
+          rustup target add armv7-linux-androideabi
+          rustup target add i686-linux-android
+          rustup target add x86_64-linux-android
+
+      - name: set NDK environment variables
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865" >> $GITHUB_ENV
+          echo "NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865" >> $GITHUB_ENV
+      
+
       - name: grant execute permissions to gradlew
         run: chmod +x gradlew
 
