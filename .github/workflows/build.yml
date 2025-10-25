@@ -30,6 +30,9 @@ jobs:
       - name: set up Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: install cargo-ndk
+        run: cargo install cargo-ndk
+
       - name: add Android Rust targets
         run: |
           rustup target add aarch64-linux-android
@@ -41,6 +44,8 @@ jobs:
         run: |
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865" >> $GITHUB_ENV
           echo "NDK_HOME=$ANDROID_HOME/ndk/29.0.14206865" >> $GITHUB_ENV
+          echo "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
+
       
 
       - name: grant execute permissions to gradlew
